@@ -13,7 +13,8 @@ public class Main {
         // hillClimbing.checkSuccessors(input.graph);
         //FirstChoiceHillClimbing firstChoiceHC = new FirstChoiceHillClimbing(input.graph);
         //RandomRestartHillClimbing randomHC=new RandomRestartHillClimbing(input.graph);
-        SimulatedAnnealing sm = new SimulatedAnnealing(input.graph);
+        // SimulatedAnnealing sm = new SimulatedAnnealing(input.graph);
+        Genetics genetics = new Genetics(input.graph);
 
     }
 }
