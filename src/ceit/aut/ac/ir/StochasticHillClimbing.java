@@ -14,7 +14,7 @@ public class StochasticHillClimbing extends Problem {
     }
 
     private void checkSuccessors(Graph graph) {
-
+        Collections.shuffle(graph.nodes);
         int currentCost = computeCost(graph);
         ArrayList<Integer> costs = new ArrayList<>();
         ArrayList<Node> changedNodes = new ArrayList<>();
@@ -55,15 +55,12 @@ public class StochasticHillClimbing extends Problem {
             System.out.println("Cost Funtion: " + computeCost(graph));
             return;
         } else {
-            //System.out.println(costs.size()+" " +changedNodes.size());
-            Random random = new Random();
-            Node result;
-            int upHillLocation = random.nextInt(costs.size() - 1);
-            // System.out.println(upHillLocation);
-            result = changedNodes.get(upHillLocation);
+
+            Collections.shuffle(changedNodes);
+
             for (int i = 0; i < graph.nodes.size(); i++) {
-                if (graph.nodes.get(i).getName().equals(result.getName())) {
-                    graph.nodes.get(i).setColor(result.getColor());
+                if (graph.nodes.get(i).getName().equals(changedNodes.get(0).getName())) {
+                    graph.nodes.get(i).setColor(changedNodes.get(0).getColor());
                 }
             }
             checkSuccessors(graph);

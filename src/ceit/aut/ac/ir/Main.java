@@ -1,5 +1,8 @@
 package ceit.aut.ac.ir;
 
+import java.util.Collections;
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -8,7 +11,9 @@ public class Main {
         //SimpleHillClimbing simpleHC = new SimpleHillClimbing(input.graph);
         //StochasticHillClimbing stochasticHC = new StochasticHillClimbing(input.graph);
         // hillClimbing.checkSuccessors(input.graph);
-        FirstChoiceHillClimbing firstChoiceHC=new FirstChoiceHillClimbing(input.graph);
+        //FirstChoiceHillClimbing firstChoiceHC = new FirstChoiceHillClimbing(input.graph);
+        //RandomRestartHillClimbing randomHC=new RandomRestartHillClimbing(input.graph);
+        SimulatedAnnealing sm = new SimulatedAnnealing(input.graph);
 
     }
 }

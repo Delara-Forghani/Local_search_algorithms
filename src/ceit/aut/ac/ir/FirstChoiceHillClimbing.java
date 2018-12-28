@@ -1,6 +1,7 @@
 package ceit.aut.ac.ir;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 class FirstChoiceHillClimbing extends Problem {
@@ -13,7 +14,7 @@ class FirstChoiceHillClimbing extends Problem {
     }
 
     private void checkSuccessors(Graph graph) {
-
+        Collections.shuffle(graph.nodes);
         int currentCost = computeCost(graph);
         boolean foundUpHill = false;
         for (int i = 0; i < graph.nodes.size(); i++) {

@@ -16,6 +16,10 @@ public class Problem {
     }
 
 
+    public void setRoot(Node node) {
+        initialState = node;
+    }
+
     public void setInitialization() {
         graph.nodes.get(0).setColor(1);
         graph.nodes.get(1).setColor(2);

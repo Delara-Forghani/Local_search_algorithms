@@ -11,7 +11,6 @@ public class SimpleHillClimbing extends Problem {
         super(graph);
         super.setInitialization();
         checkSuccessors(graph);
-
     }
 
 
