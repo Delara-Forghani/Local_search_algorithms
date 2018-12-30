@@ -10,45 +10,34 @@ public class Genetics extends Problem {
     ArrayList<Graph> newGeneration;
     Random random = new Random();
 
-    public Genetics(Graph graph) {
+    public Genetics(Graph graph, int numOfIteration) {
         super(graph);
         super.setInitialization();
         population = new ArrayList<>();
         fitness = new ArrayList<>();
         selected = new ArrayList<>();
-        newGeneration = new ArrayList<>();
         population.add(graph);
-        searchGenetics(graph);
+        searchGenetics(graph, numOfIteration);
 
 
     }
 
 
-    public void searchGenetics(Graph graph) {
-        setPopulation(100, graph);
-        for (int i = 0; i < population.size(); i++) {
-            population.get(i).setFitness(fitnessFunction(population.get(i)));
+    public void searchGenetics(Graph graph, int num) {
+        setPopulation(1000, graph);
+        for (int j = 0; j < num; j++) {
+            for (int i = 0; i < population.size(); i++) {
+                population.get(i).setFitness(fitnessFunction(population.get(i)));
+            }
+            //System.out.println("best fitness in this generation: " + bestFitness());
+            //System.out.println("worst fitness in this generation: " + worstFitness());
+            System.out.println("average fitness in this generation: " + averageFitness());
+            tournamentSelection(4);
+            newGeneration();
+            mutation(0.02);
+            recurrence();
         }
 
-        tournamentSelection(4);
-//        for (int i = 0; i < selected.size(); i++) {
-//            System.out.println(i + " " + selected.get(i).getFitness());
-//        }
-        newGeneration();
-        mutation(0.02);
-
-//
-//        for (int i = 0; i < newGeneration.size(); i++) {
-//            for (int j = 0; j < newGeneration.get(i).nodes.size(); j++) {
-//                System.out.println(newGeneration.get(i).nodes.get(j).getName() + ": " + newGeneration.get(i).nodes.get(j).getColor() + " ");
-//                for (int k = 0; k < newGeneration.get(i).nodes.get(j).getAdjacencies().size(); k++) {
-//                    System.out.println(newGeneration.get(i).nodes.get(j).getAdjacencies().get(k).getName() + "*" + newGeneration.get(i).nodes.get(j).getAdjacencies().get(k).getColor());
-//                }
-//                System.out.println();
-//            }
-//            System.out.println();
-//        }
-       // System.out.println(newGeneration.size());
 
     }
 
@@ -99,23 +88,21 @@ public class Genetics extends Problem {
             selected.add(best);
 
         }
-        //System.out.println(selected.size());
+
     }
 
     public void newGeneration() {
+        newGeneration = new ArrayList<>();
         for (int i = 0; i < population.size(); i++) {
             int test1 = random.nextInt(selected.size() - 1);
             Graph father = selected.get(test1);
-            // System.out.print(i + " " + test1 + " " + father);
-            // System.out.print(" ");
             int test2 = random.nextInt(selected.size() - 1);
             Graph mother = selected.get(test2);
-            // System.out.println(test2 + " " + mother);
             if (father != mother) {
                 newGeneration.add(crossover(father, mother));
             }
         }
-        System.out.println(newGeneration.size());
+       // System.out.println(newGeneration.size());
     }
 
 
@@ -139,7 +126,6 @@ public class Genetics extends Problem {
             int childIndex = random.nextInt(newGeneration.size() - 1);
             Graph mutatedChild = newGeneration.get(childIndex);
             int genomeIndex = random.nextInt(mutatedChild.nodes.size() - 1);
-            //System.out.println(genomeIndex);
             ArrayList<Integer> tempColor = new ArrayList<>();
             tempColor.add(1);
             tempColor.add(2);
@@ -153,6 +139,47 @@ public class Genetics extends Problem {
             mutatedChild.nodes.get(genomeIndex).setColor(tempColor.get(random.nextInt(2)));
         }
     }
+
+
+    public void recurrence() {
+        population = newGeneration;
+    }
+
+    public int bestFitness() {
+        int best = 0;
+        for (int i = 0; i < population.size(); i++) {
+            if (best < population.get(i).getFitness()) {
+                best = population.get(i).getFitness();
+            }
+
+        }
+        return best;
+    }
+
+    public int worstFitness() {
+        int worst = 100;
+        for (int i = 0; i < population.size(); i++) {
+            if (worst > population.get(i).getFitness()) {
+                worst = population.get(i).getFitness();
+            }
+
+        }
+        return worst;
+    }
+
+
+    public int averageFitness() {
+        int average = 0;
+        for (int i = 0; i < population.size(); i++) {
+
+            average += population.get(i).getFitness();
+
+        }
+        average = average / population.size();
+
+        return average;
+    }
+
 }
 
 

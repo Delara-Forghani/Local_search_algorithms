@@ -5,15 +5,19 @@ import java.util.Collections;
 import java.util.Random;
 
 public class SimpleHillClimbing extends Problem {
-
+    private int frontiersNum;
+    private int exploredNum;
 
     public SimpleHillClimbing(Graph graph) {
         super(graph);
         super.setInitialization();
+        frontiersNum = 0;
+        exploredNum = 0;
         checkSuccessors(graph);
+        System.out.println("Frontiers: " + frontiersNum);
+        System.out.println("Explored: " + exploredNum);
+
     }
-
-
 
 
     private void checkSuccessors(Graph graph) {
@@ -42,10 +46,10 @@ public class SimpleHillClimbing extends Problem {
                 costs.add(computeCost(graph));
                 saveNode = new Node(graph.nodes.get(i).getName(), graph.nodes.get(i).getColor());
                 changedNodes.add(saveNode);
-
+                frontiersNum++;
             }
             graph.nodes.get(i).setColor(temp);
-
+            exploredNum++;
         }
 
 

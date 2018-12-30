@@ -5,28 +5,31 @@ import java.util.Collections;
 import java.util.Random;
 
 public class RandomRestartHillClimbing extends Problem {
-
+    private int frontiersNum;
+    private int exploredNum;
 
     public RandomRestartHillClimbing(Graph graph) {
         super(graph);
         super.setInitialization();
-        Random random = new Random();
         int iteration = 10;
+        frontiersNum = 0;
+        exploredNum = 0;
         for (int i = 0; i < iteration; i++) {
             if (i == iteration - 1) {
                 Collections.shuffle(graph.nodes);
-                //  int rand = random.nextInt(graph.nodes.size() - 1);
                 super.setRoot(graph.nodes.get(0));
                 Node root = super.initialState;
                 checkSuccessors(graph, root, true);
             }
-            //int rand = random.nextInt(graph.nodes.size() - 1);
             Collections.shuffle(graph.nodes);
             super.setRoot(graph.nodes.get(0));
             Node root = super.initialState;
             checkSuccessors(graph, root, false);
 
         }
+
+        System.out.println("Frontiers: " + frontiersNum);
+        System.out.println("Explored: " + exploredNum);
     }
 
 
@@ -50,12 +53,14 @@ public class RandomRestartHillClimbing extends Problem {
 
         for (int i = 0; i < changeRootColor.size(); i++) {
             graph.nodes.get(0).setColor(changeRootColor.get(i));
+            frontiersNum++;
             costs.add(computeCost(graph));
             saveNode = new Node(root.getName(), root.getColor());
             changedNodes.add(saveNode);
-            graph.nodes.get(0).setColor(rColor);
-        }
 
+        }
+        graph.nodes.get(0).setColor(rColor);
+        exploredNum++;
         for (int i = 1; i < graph.nodes.size(); i++) {
             ArrayList<Integer> tempColor = new ArrayList<>();
             tempColor.add(1);
@@ -70,7 +75,7 @@ public class RandomRestartHillClimbing extends Problem {
 
             for (int j = 0; j < tempColor.size(); j++) {
                 graph.nodes.get(i).setColor(tempColor.get(j));
-
+                frontiersNum++;
 
                 costs.add(computeCost(graph));
                 saveNode = new Node(graph.nodes.get(i).getName(), graph.nodes.get(i).getColor());
@@ -78,6 +83,7 @@ public class RandomRestartHillClimbing extends Problem {
 
             }
             graph.nodes.get(i).setColor(temp);
+            exploredNum++;
 
         }
 

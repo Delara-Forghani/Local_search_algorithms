@@ -5,11 +5,18 @@ import java.util.Collections;
 import java.util.Random;
 
 class FirstChoiceHillClimbing extends Problem {
+    private int frontiersNum;
+    private int exploredNum;
 
     FirstChoiceHillClimbing(Graph graph) {
         super(graph);
         super.setInitialization();
+        frontiersNum = 0;
+        exploredNum = 0;
         checkSuccessors(graph);
+        System.out.println("Frontiers: " + frontiersNum);
+        System.out.println("Explored: " + exploredNum);
+
 
     }
 
@@ -32,7 +39,7 @@ class FirstChoiceHillClimbing extends Problem {
 
             for (int j = 0; j < tempColor.size(); j++) {
                 graph.nodes.get(i).setColor(tempColor.get(j).intValue());
-
+                frontiersNum++;
                 int tempCost = computeCost(graph);
                 if (currentCost < tempCost) {
                     foundUpHill = true;
@@ -40,21 +47,17 @@ class FirstChoiceHillClimbing extends Problem {
                 }
 
             }
-            if(foundUpHill){
+            if (foundUpHill) {
                 break;
             }
 
 
             graph.nodes.get(i).setColor(temp);
-
+            exploredNum++;
         }
 
         if (foundUpHill) {
-//            for (int i = 0; i < graph.nodes.size(); i++) {
-//                if (graph.nodes.get(i).getName().equals(changedNode.getName())) {
-//                    graph.nodes.get(i).setColor(changedNode.getColor());
-//                }
-//            }
+
             checkSuccessors(graph);
         } else {
             for (int i = 0; i < graph.nodes.size(); i++) {

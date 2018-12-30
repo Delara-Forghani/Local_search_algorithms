@@ -8,6 +8,8 @@ public class SimulatedAnnealing extends Problem {
     private double temperature;
     private double coolingRate;
     boolean finish;
+    private int frontiersNum;
+    private int exploredNum;
 
     public SimulatedAnnealing(Graph graph) {
         super(graph);
@@ -15,7 +17,11 @@ public class SimulatedAnnealing extends Problem {
         temperature = 1000;
         coolingRate = 0.009;
         finish = false;
+        frontiersNum = 0;
+        exploredNum = 0;
         checkSuccessors(graph);
+        System.out.println("Frontiers: " + frontiersNum);
+        System.out.println("Explored: " + exploredNum);
 
     }
 
@@ -46,13 +52,15 @@ public class SimulatedAnnealing extends Problem {
                 costs.add(newCost);
                 saveNode = new Node(graph.nodes.get(i).getName(), graph.nodes.get(i).getColor());
                 changedNodes.add(saveNode);
+                frontiersNum++;
 
             }
 
             graph.nodes.get(i).setColor(temp);
+            exploredNum++;
         }
 
-        
+
         while (temperature > 1) {
             int rand = random.nextInt(costs.size() - 1);
             int newCost = costs.get(rand);

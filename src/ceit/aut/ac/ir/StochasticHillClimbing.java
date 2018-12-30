@@ -5,12 +5,18 @@ import java.util.Collections;
 import java.util.Random;
 
 public class StochasticHillClimbing extends Problem {
-
+    private int frontiersNum;
+    private int exploredNum;
 
     public StochasticHillClimbing(Graph graph) {
         super(graph);
         super.setInitialization();
+        frontiersNum = 0;
+        exploredNum = 0;
         checkSuccessors(graph);
+        System.out.println("Frontiers: " + frontiersNum);
+        System.out.println("Explored: " + exploredNum);
+
     }
 
     private void checkSuccessors(Graph graph) {
@@ -34,7 +40,7 @@ public class StochasticHillClimbing extends Problem {
 
             for (int j = 0; j < tempColor.size(); j++) {
                 graph.nodes.get(i).setColor(tempColor.get(j).intValue());
-
+                frontiersNum++;
                 int tempCost = computeCost(graph);
                 if (currentCost < tempCost) {
                     costs.add(tempCost);
@@ -44,7 +50,7 @@ public class StochasticHillClimbing extends Problem {
 
             }
             graph.nodes.get(i).setColor(temp);
-
+            exploredNum++;
         }
 
 
